@@ -10,10 +10,12 @@ jobs:
     runs-on: macOS-latest
     steps:
       - uses: actions/checkout@v2
-      - run: ls
+      - uses: actions/setup-node@v4
+          node-version: '18'
+      - run: npm install
       - run: 
           cd ios &&
-          ls && 
+          pod install &&
           xcodebuild build -scheme 'AmazingProject' -configuration Debug -project 'AmazingProject.xcodeproj' -destination 'generic/platform=iOS Simulator' CONFIGURATION_BUILD_DIR=$PWD/build
       - uses: mobile-dev-inc/action-maestro-cloud@v1
         with:
