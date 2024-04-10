@@ -11,6 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: cd ios
+      - run: ls -l
       - run: xcodebuild build -scheme 'AmazingProject' -configuration Debug -project 'AmazingProject.xcodeproj' -destination 'generic/platform=iOS Simulator' CONFIGURATION_BUILD_DIR=$PWD/build
       - uses: mobile-dev-inc/action-maestro-cloud@v1
         with:
