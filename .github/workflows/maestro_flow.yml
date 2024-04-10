@@ -12,8 +12,8 @@ jobs:
       - uses: actions/checkout@v2
       - run: ls
       - run: |
-          cd ios 
-          ls
+          cd ios &&
+          ls &&
           echo $PWD    
 
       # - run: xcodebuild build -scheme 'AmazingProject' -configuration Debug -project 'AmazingProject.xcodeproj' -destination 'generic/platform=iOS Simulator' CONFIGURATION_BUILD_DIR=$PWD/build
