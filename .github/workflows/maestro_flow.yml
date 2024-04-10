@@ -11,8 +11,7 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ls
-      - run: |
-          cd ios &&
+      - run: cd ios &&
           ls &&
           echo $PWD    
 
