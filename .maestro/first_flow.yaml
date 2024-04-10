@@ -1,0 +1,11 @@
+# flow.yaml
+
+appId: org.reactjs.native.example.AmazingProject
+---
+- launchApp
+- tapOn: "Delete hello"
+- assertNotVisible: "Delete hello"
+- tapOn: "Enter random text"
+- inputRandomPersonName  # Enters a random person name
+#- hideKeyboard
+- tapOn: "Return"

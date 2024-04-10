@@ -1,0 +1,17 @@
+name: Build and upload to Maestro Cloud (Native iOS)
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: macOS-latest
+    steps:
+      - uses: actions/checkout@v2
+      - run: xcodebuild build -scheme 'AmazingProject' -configuration Debug -project 'AmazingProject.xcodeproj' -destination 'generic/platform=iOS Simulator' CONFIGURATION_BUILD_DIR=$PWD/build
+      - uses: mobile-dev-inc/action-maestro-cloud@v1
+        with:
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: build/AmazingProject.app
