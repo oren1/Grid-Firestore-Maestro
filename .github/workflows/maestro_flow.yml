@@ -11,12 +11,11 @@ jobs:
     steps:
       - uses: actions/checkout@v2
       - run: ls
-      - run: cd ios &&
-          ls &&
-          echo $PWD    
-
-      # - run: xcodebuild build -scheme 'AmazingProject' -configuration Debug -project 'AmazingProject.xcodeproj' -destination 'generic/platform=iOS Simulator' CONFIGURATION_BUILD_DIR=$PWD/build
-      # - uses: mobile-dev-inc/action-maestro-cloud@v1
-      #   with:
-      #     api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
-      #     app-file: build/AmazingProject.app
+      - run: 
+          cd ios &&
+          ls && 
+          xcodebuild build -scheme 'AmazingProject' -configuration Debug -project 'AmazingProject.xcodeproj' -destination 'generic/platform=iOS Simulator' CONFIGURATION_BUILD_DIR=$PWD/build
+      - uses: mobile-dev-inc/action-maestro-cloud@v1
+        with:
+          api-key: ${{ secrets.MAESTRO_CLOUD_API_KEY }}
+          app-file: ios/build/AmazingProject.app
