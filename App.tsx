@@ -13,11 +13,14 @@ import {
   useColorScheme,
   View,
   TextInput,
+  Alert,
 } from 'react-native';
 
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import NoteView, {Note} from './Note';
+import TrackPlayer, {Event, useProgress, useTrackPlayerEvents} from 'react-native-track-player';
 
+// The player is ready to be used
 // Import the functions you need from the SDKs you need
 import {initializeApp} from 'firebase/app';
 import {
@@ -268,6 +271,25 @@ const querySubcollection = async () => {
   }
 };
 
+const startPlayer = async () => {
+  await TrackPlayer.setupPlayer()
+  const track = {
+    url: require('./song.mp3'), // Load media from the app bundle
+    title: 'Song',
+    artist: 'Omer Adam',
+};
+const track2 = {
+  url: require('./Erratic.mp3'), // Load media from the app bundle
+  title: 'Song 2',
+  artist: 'Useless ID',
+};
+  await TrackPlayer.add([track, track2]);
+  TrackPlayer.play();
+  setTimeout(() => {
+    TrackPlayer.skip(1);
+  }, 10000)
+}
+
 function App(): React.JSX.Element {
   const isDarkMode = useColorScheme() === 'dark';
   const [text, onChangeText] = React.useState('');
@@ -283,7 +305,16 @@ function App(): React.JSX.Element {
     ],
     noteColor: 'grey',
   });
+  const progress = useProgress();
+  console.log(`duration: ${progress.duration}, position: ${progress.position}, buffered: ${progress.buffered}`)
 
+  useTrackPlayerEvents([Event.PlaybackActiveTrackChanged], async event => {
+    if (event.type === Event.PlaybackActiveTrackChanged && event.track != null) {
+        const track = await TrackPlayer.getTrack(event.index!);
+        const {title} = track || {};
+        console.log(`playing ${title}`)
+    }
+});
   useEffect(() => {
     // createDoc();
     // getAllUsers();
@@ -292,7 +323,8 @@ function App(): React.JSX.Element {
     // addCityWithConverter();
     // addMultipleCities();
     // basicQuery();
-    querySubcollection();
+    // querySubcollection();
+    startPlayer()
   }, []);
 
   const removeNote = (index: number) => {
